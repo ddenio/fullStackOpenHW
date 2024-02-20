@@ -1,6 +1,14 @@
 // 3.1: Phonebook backend step 1
 // Implement a Node application that returns a hardcoded list of phonebook entries from the address http://localhost:3001/api/persons.
 
+// 3.2: Phonebook backend step 2
+// Implement a page at the address http://localhost:3001/info that looks roughly like this:
+
+// Screenshot for 3.2
+// The page has to show the time that the request was received and how many entries are in the phonebook at the time of processing the request.
+
+// There can only be one response.send() statement in an Express app route. Once you send a response to the client using response.send(), the request-response cycle is complete and no further response can be sent.
+
 const express = require('express')
 const app = express()
 
@@ -35,6 +43,13 @@ app.get('/', (request, response) => {
 
 app.get('/api/persons', (request, response) => {
     response.json(persons)
+})
+
+app.get('/info', (request, response) => {
+    const date = new Date();
+    response.send(`Phonebook has info for ${persons.length} people
+    \n${date}`)
+    
 })
 
 const PORT = 3001
