@@ -9,6 +9,10 @@
 
 // There can only be one response.send() statement in an Express app route. Once you send a response to the client using response.send(), the request-response cycle is complete and no further response can be sent.
 
+// 3.3: Phonebook backend step 3
+// Implement the functionality for displaying the information for a single phonebook entry. The url for getting the data for a person with the id 5 should be http://localhost:3001/api/persons/5
+
+// If an entry for the given id is not found, the server has to respond with the appropriate status code.
 const express = require('express')
 const app = express()
 
@@ -49,8 +53,18 @@ app.get('/info', (request, response) => {
     const date = new Date();
     response.send(`Phonebook has info for ${persons.length} people
     \n${date}`)
-    
 })
+
+app.get('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    const person = persons.find(person => person.id === id)
+    
+    if (person) {
+      response.json(person)
+    } else {
+      response.status(404).end()
+    }
+  })
 
 const PORT = 3001
 app.listen(PORT, () => {
