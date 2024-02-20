@@ -20,6 +20,15 @@
 // Expand the backend so that new phonebook entries can be added by making HTTP POST requests to the address http://localhost:3001/api/persons.
 // Generate a new id for the phonebook entry with the Math.random function. Use a big enough range for your random values so that the likelihood of creating duplicate ids is small.
 
+// 3.6: Phonebook backend step 6
+// Implement error handling for creating new entries. The request is not allowed to succeed, if:
+
+// The name or number is missing
+// The name already exists in the phonebook
+// Respond to requests like these with the appropriate status code, and also send back information that explains the reason for the error, e.g.:
+
+// { error: 'name must be unique' }
+
 const express = require('express')
 const app = express()
 
@@ -93,6 +102,14 @@ app.post('/api/persons', (request, response) => {
     if (!body.number) {
         return response.status(400).json({
             error: 'number missing'
+        })
+    }
+
+    const existingPerson = persons.find(person => person.name === body.name)
+
+    if (existingPerson) {
+        return response.status(400).json({
+            error: 'name must be unique'
         })
     }
 
