@@ -32,12 +32,25 @@
 // The documentation for Morgan is not the best, and you may have to spend some time figuring out how to configure it correctly. However, most documentation in the world falls under the same category, so it's good to learn to decipher and interpret cryptic documentation in any case.
 // Morgan is installed just like all other libraries with the npm install command. Taking morgan into use happens the same way as configuring any other middleware by using the app.use command.
 
+// 3.8*: Phonebook backend step 8
+// Configure morgan so that it also shows the data sent in HTTP POST requests:
+// terminal showing post data being sent
+// Note that logging data even in the console can be dangerous since it can contain sensitive data and may violate local privacy law (e.g. GDPR in EU) or business-standard. In this exercise, you don't have to worry about privacy issues, but in practice, try not to log any sensitive data.
+// This exercise can be quite challenging, even though the solution does not require a lot of code.
+
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
 
 app.use(express.json())
-app.use(morgan('tiny'))
+// app.use(morgan('tiny'))
+
+//creating a new token called 'object' that we can use in our morgan use below
+morgan.token('object', function (req, res) { 
+    return `${JSON.stringify(req.body)}` 
+})
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :object'))
 
 let persons =
     [
