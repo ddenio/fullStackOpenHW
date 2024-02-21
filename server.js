@@ -22,17 +22,22 @@
 
 // 3.6: Phonebook backend step 6
 // Implement error handling for creating new entries. The request is not allowed to succeed, if:
-
 // The name or number is missing
 // The name already exists in the phonebook
 // Respond to requests like these with the appropriate status code, and also send back information that explains the reason for the error, e.g.:
 
 // { error: 'name must be unique' }
+// 3.7: Phonebook backend step 7
+// Add the morgan middleware to your application for logging. Configure it to log messages to your console based on the tiny configuration.
+// The documentation for Morgan is not the best, and you may have to spend some time figuring out how to configure it correctly. However, most documentation in the world falls under the same category, so it's good to learn to decipher and interpret cryptic documentation in any case.
+// Morgan is installed just like all other libraries with the npm install command. Taking morgan into use happens the same way as configuring any other middleware by using the app.use command.
 
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
 
 app.use(express.json())
+app.use(morgan('tiny'))
 
 let persons =
     [
